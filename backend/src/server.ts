@@ -1,8 +1,11 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const DbConnect = require('../src/config/db');
+import express from "express";
+import cors from 'cors';
+import path from 'path';
+import connectDB from '../src/config/db';
+import env from 'dotenv';
+import authRoutes from "./routes/authRoutes";
+
+env.config();
 
 const app = express();
 
@@ -14,9 +17,13 @@ app.use(cors({
 }));
 
 // connect DB
-DbConnect();
+connectDB();
 
 app.use(express.json());
+
+//Routes
+app.use("/api/auth", authRoutes);
+// app.use("/api/resume", resumeRoutes);
 
 const PORT = process.env.PORT || 5000;
 
